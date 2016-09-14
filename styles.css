@@ -1,0 +1,16 @@
+.block {
+  margin: 0;
+  border: 1px solid black;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+}
+.row {
+  margin: 0;
+  border 1px solid red;
+  height: 20px;
+}
+
+.current-block {
+  background-color: orange;
+}
