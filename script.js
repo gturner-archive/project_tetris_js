@@ -50,8 +50,23 @@ var gameModel = {
     return [gameModel.currentBlock.xCoord, gameModel.currentBlock.yCoord];
   },
 
-  updateGame: function() {
+  updateGame: function(grid) {
+    if (gameModel.checkTouch(grid)) {
+      var coords = this.getCoords();
+      this.currentBlock = new Block(4,0);
+      return coords;
+    }
     gameModel.currentBlock.yCoord += 1;
+    return false;
+  },
+
+  checkTouch: function(grid) {
+    var x = gameModel.currentBlock.xCoord;
+    var y = gameModel.currentBlock.yCoord;
+    if (grid[x][y+1]) {
+      return true;
+    }
+    return false;
   },
 
   updatePieceCoords: function(keycode) {
@@ -81,7 +96,7 @@ var view = {
     this.addKeyboardListner();
   },
 
-  render: function(width, height, blockCoords, grid) {
+  render: function(width, height, blockCoords, gridArray) {
     $('#grid').html('');
     for(var i = 0; i < height; i++){
       var $row = $('<div>').addClass('row');
@@ -93,6 +108,9 @@ var view = {
                     .attr('data-y', i);
         if (j === blockCoords[0] && i === blockCoords[1]){
           $block.addClass('current-block');
+        }
+        if (gridArray[j][i]) {
+          $block.addClass('old-block');
         }
         $row.append($block);
       }
@@ -120,7 +138,10 @@ var controller = {
     setInterval(function() {
       view.render(gridModel.width, gridModel.height, gameModel.getCoords(), gridModel.gridArray);
       if (loop % 2 === 0) {
-        gameModel.updateGame();
+        var coords = gameModel.updateGame(gridModel.gridArray);
+        if (!!coords) {
+          gridModel.updateGrid(coords);
+        }
       }
       loop++;
     }, 1000);

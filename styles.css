@@ -14,3 +14,7 @@
 .current-block {
   background-color: orange;
 }
+
+.old-block {
+  background-color: green;
+}
