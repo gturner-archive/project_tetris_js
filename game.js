@@ -12,7 +12,21 @@ function Piece(){
   };
 
   this.shape = types[Object.keys(types)[Math.floor(Math.random() * 4)]];
+
+  this.mapBlock = function(index){
+    var blockCoords = [];
+    for(var n = 0; n < 4; n++){
+      var dist =
+      blockCoords.push();
+    }
+  }
 };
+// [1,0] [2,0] [3,0] [4,0]
+// n n n n
+// n = 0th indexed block
+// n->1,0->2,0->3,0
+// mapping = [[2-1, 0-0], []]
+//
 
 var gameModel = {
   init: function() {

@@ -18,16 +18,14 @@ var gridModel = {
   updateGrid: function(coords) {
     for (var j = 0; j < coords.length; j++) {
       var col = this.gridArray[coords[j][0]];
-      for (var i = col.length - 1; i >= 0; i--) {
-        //console.log(col)
-        if (!col[i]) {
-          //col[i] = true;
-          // console.log(col);
-          // for (var k = 0; k < coords.length; k++) {
-          //   console.log(this.gridArray[coords[k][0]][coords[k][1]]);
-          //   this.gridArray[coords[k][0]][coords[k][1]] = true;
-          //   this.checkRow([coords[k][0],coords[k][1]]);
-          // }
+      for (var i = 0; i < col.length; i++){
+        if (!!col[i+1] || i === 19) {
+          var diff = i - coords[j][1];
+          for (var k = 0; k < coords.length; k++) {
+            console.log(this.gridArray[coords[k][0]][diff + coords[k][1]]);
+            this.gridArray[coords[k][0]][diff + coords[k][1]] = true;
+            this.checkRow([coords[k][0], diff + coords[k][1]]);
+          }
           return;
         }
       }
