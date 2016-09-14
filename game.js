@@ -11,7 +11,7 @@ function Piece(){
     iShape: [new Block(4,0), new Block(2,0), new Block(3,0), new Block(5,0)]
   };
 
-  this.shape = Object.keys(types)[Math.floor(Math.random() * 4)];
+  this.shape = types[Object.keys(types)[Math.floor(Math.random() * 4)]];
 };
 
 var gameModel = {
@@ -22,20 +22,26 @@ var gameModel = {
   },
 
   getCoords: function(){
-    return [gameModel.currentBlock.xCoord, gameModel.currentBlock.yCoord];
+    var piece = [];
+    for (var i = 0; i < this.currentBlock.shape.length; i++) {
+      piece.push([gameModel.currentBlock.shape[i].xCoord, gameModel.currentBlock.shape[i].yCoord])
+    }
+    return piece;
   },
 
   updateGame: function(grid) {
     var coords = this.getCoords();
-    if (gameModel.checkTouch(grid) || coords[1] === 19) {
-      this.currentBlock = new Block(4,0);
-      return coords;
+    for (var i = 0; i < this.currentBlock.shape.length; i++) {
+      if (gameModel.checkTouch(grid, this.currentBlock.shape[i]) || coords[i][1] === 19) {
+        this.currentBlock = new Piece();
+        return coords;
+      }
+      gameModel.currentBlock.shape[i].yCoord += 1;
     }
-    gameModel.currentBlock.yCoord += 1;
     return false;
   },
 
-  checkTouch: function(block, grid) {
+  checkTouch: function(grid, block) {
     var x = block.xCoord;
     var y = block.yCoord;
     if (grid[x][y+1]) {
@@ -47,32 +53,42 @@ var gameModel = {
   updatePieceCoords: function(keycode, grid) {
     if (keycode === 37) {
       if (this.validMove(-1, grid)){
-        this.currentBlock.xCoord -= 1;
+        for (var i = 0; i < this.currentBlock.shape.length; i++) {
+          this.currentBlock.shape[i].xCoord -= 1;
+        }
       }
     }
     if (keycode === 39) {
       if (this.validMove(1, grid)){
-        this.currentBlock.xCoord += 1;
+        for (var i = 0; i < this.currentBlock.shape.length; i++) {
+          this.currentBlock.shape[i].xCoord += 1;
+        }
       }
     }
     if (keycode === 40) {
-      return gameModel.setPiece(this.currentBlock);
+      return gameModel.setPiece(this.currentBlock.shape);
     }
     return false;
   },
 
   validMove: function(move, grid) {
-    var nextSpace = this.currentBlock.xCoord + move;
-    if ( nextSpace < 0 || nextSpace > 9 || grid[nextSpace][this.currentBlock.yCoord] ){
-      return false;
+    for (var i = 0; i < this.currentBlock.shape.length; i++) {
+      var nextSpace = this.currentBlock.shape[i].xCoord + move;
+      if ( nextSpace < 0 || nextSpace > 9 || grid[nextSpace][this.currentBlock.shape[i].yCoord] ){
+        return false;
+      }
     }
     return true;
   },
 
-  setPiece: function(block) {
-    var xVal = block.xCoord;
-    var yVal = block.yCoord;
-    this.currentBlock = new Block(4,0);
-    return [xVal, yVal];
+  setPiece: function(piece) {
+    var coords = [];
+    for (var i = 0; i < this.currentBlock.shape.length; i++) {
+      var xVal = piece[i].xCoord;
+      var yVal = piece[i].yCoord;
+      coords.push([xVal, yVal]);
+    }
+    this.currentBlock = new Piece();
+    return coords;
   }
 };

@@ -13,8 +13,10 @@ var view = {
                     .addClass('block')
                     .attr('data-x', j)
                     .attr('data-y', i);
-        if (j === blockCoords[0] && i === blockCoords[1]){
-          $block.addClass('current-block');
+        for (var k = 0; k < blockCoords.length; k++) {
+          if (j === blockCoords[k][0] && i === blockCoords[k][1]){
+            $block.addClass('current-block');
+          }
         }
         if (gridArray[j][i]) {
           $block.addClass('old-block');
