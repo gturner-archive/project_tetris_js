@@ -18,17 +18,15 @@ var gridModel = {
     for (var i = col.length - 1; i >= 0; i--) {
       if (!col[i]) {
         col[i] = true;
+        this.checkRow([coords[0],i]);
         return;
       }
     }
   },
 
   checkRow: function(coord){
-    var fulls = [];
-    for(var i = 0; i < this.height; i++){
-      if(this.fullRow(coord[1])){
-        this.removeRow(i)
-      }
+    if(this.fullRow(coord[1])) {
+      this.removeRow(coord[1])
     }
   },
 
@@ -42,9 +40,9 @@ var gridModel = {
   },
 
   removeRow: function(rowNum){
-    for(var k = 0; k < this.width; k++){
-      var temp = this.gridArray[k].splice(0, rowNum);
-      this.gridArray = temp.concat(this.gridArray[k].slice(1));
+    for(var k = this.width - 1; k >= 0; k--){
+      var ele = this.gridArray[k].splice(rowNum, 1);
+      this.gridArray[k].unshift(undefined);
     }
   }
 };

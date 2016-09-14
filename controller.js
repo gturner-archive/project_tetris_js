@@ -14,7 +14,6 @@ var controller = {
         if (!!coords) {
           gridModel.updateGrid(coords);
         }
-        gridModel.checkRow(coords);
       }
       loop++;
     }, 1000);
