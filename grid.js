@@ -12,15 +12,13 @@ var gridModel = {
       this.gridArray[i] = new Array(this.height);
     }
   },
-  
+
   updateGrid: function(coords) {
     var dist = [];
     for(var i = 0; i < coords.length; i++){
       dist.push(this.checkBlockDrop(coords[i]));
     }
-    console.log(dist)
     var min_dist = this.minDistCollision(dist);
-    console.log(min_dist);
     for(var i =0; i < coords.length; i++){
       this.gridArray[coords[i][0]][min_dist + coords[i][1]] = true;
       this.checkRow([coords[i][0], min_dist + coords[i][1]]);
