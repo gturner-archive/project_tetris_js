@@ -8,17 +8,17 @@ var controller = {
   gameLoop: function(){
     var loop = 1;
     controller._intervalID = setInterval(function() {
-      console.log("game loop");
-      view.render(gameModel.getCoords(), gridModel);
+      view.render(gameModel.getCoords(), gridModel, gameModel);
       if (loop % 2 === 0) {
         var coords = gameModel.updateGame(gridModel);
         if (!!coords) {
           gridModel.updateGrid(coords);
         }
       }
+      console.log(gameModel.interval);
       gameModel.gameOver(gridModel);
       loop++;
-    }, 1000);
+    }, gameModel.interval);
   },
 
   newGame: function(){
@@ -36,12 +36,20 @@ var controller = {
     if (!!coords) {
       gridModel.updateGrid(coords);
     }
-    view.render(gameModel.getCoords(), gridModel);
+    view.render(gameModel.getCoords(), gridModel, gameModel);
   },
 
   stopGame: function(){
     clearInterval(controller._intervalID);
     // add score in below
     view.gameOverMessage();
+  },
+
+  updateScore: function(){
+    gameModel.incScore();
+  },
+
+  updateSpeed: function(){
+    gameModel.interval /= 1.1;
   }
 };

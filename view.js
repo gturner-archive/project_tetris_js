@@ -4,7 +4,12 @@ var view = {
     this.newGameListener();
   },
 
-  render: function(blockCoords, grid) {
+  scoreDisplay: function(gameMod){
+    var msg = "SCORE: " + gameMod.score;
+    $('#score').text(msg);
+  },
+
+  render: function(blockCoords, grid, gameMod) {
     var width = grid.width;
     var height = grid.height;
     var gridArray = grid.gridArray;
@@ -28,6 +33,7 @@ var view = {
         $row.append($block);
       }
     }
+    this.scoreDisplay(gameMod);
   },
 
   addKeyboardListner: function() {

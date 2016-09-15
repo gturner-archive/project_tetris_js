@@ -28,6 +28,7 @@ var gameModel = {
     this.currentBlock = new Piece();
     this.turn = 0;
     this.score = 0;
+    this.interval = 1000;
   },
 
   getCoords: function(){
@@ -76,12 +77,29 @@ var gameModel = {
       }
     }
     if (keycode === 40) {
-      return gameModel.setPiece();
+      // return gameModel.setPiece();
+      if (this.validYMove(1, gridMod)){
+        for (var j = 0; j < this.currentBlock.shape.length; j++) {
+          this.currentBlock.shape[j].yCoord += 1;
+        }
+      }
     }
     if (keycode === 32) {
       this.rotate(block);
     }
     return false;
+  },
+
+  validYMove: function(move, gridMod){
+    var grid = gridMod.gridArray;
+    for (var i = 0; i < this.currentBlock.shape.length; i++) {
+      var nextSpace = this.currentBlock.shape[i].yCoord + move;
+      var xSpace = this.currentBlock.shape[i].xCoord;
+      if ( nextSpace > 19 || grid[xSpace][nextSpace] ){
+        return false;
+      }
+    }
+    return true;
   },
 
   validMove: function(move, gridMod) {
@@ -114,5 +132,9 @@ var gameModel = {
         break;
       }
     }
+  },
+
+  incScore: function() {
+    this.score += 20;
   }
 };

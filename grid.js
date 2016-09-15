@@ -40,12 +40,10 @@ var gridModel = {
   minDistCollision: function(distances){
     var min = distances[0];
     for(var i = 1; i < distances.length; i++){
-      // console.log(distances[i]);
       if (distances[i] < min){
         min = distances[i];
       }
     }
-    // console.log(min);
     return min;
   },
 
@@ -69,5 +67,7 @@ var gridModel = {
       var ele = this.gridArray[k].splice(rowNum, 1);
       this.gridArray[k].unshift(undefined);
     }
+    controller.updateScore();
+    controller.updateSpeed();
   }
 };
