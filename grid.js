@@ -10,6 +10,9 @@ var gridModel = {
   buildGrid: function() {
     for (var i = 0; i < this.gridArray.length; i++) {
       this.gridArray[i] = new Array(this.height);
+      for(var j = 0; j < this.gridArray[i].length; j++){
+        this.gridArray[i][j] = false;
+      }
     }
   },
 

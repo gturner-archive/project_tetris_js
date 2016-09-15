@@ -33,49 +33,50 @@ var gameModel = {
   getCoords: function(){
     var piece = [];
     for (var i = 0; i < this.currentBlock.shape.length; i++) {
-      piece.push([gameModel.currentBlock.shape[i].xCoord, gameModel.currentBlock.shape[i].yCoord]);
+      piece.push([this.currentBlock.shape[i].xCoord, this.currentBlock.shape[i].yCoord]);
     }
     return piece;
   },
 
-  updateGame: function(grid) {
+  updateGame: function(gridMod) {
     var coords = this.getCoords();
     for (var i = 0; i < this.currentBlock.shape.length; i++) {
-      if (gameModel.checkTouch(grid, this.currentBlock.shape[i]) || coords[i][1] === 19) {
+      if (gameModel.checkTouch(gridMod, this.currentBlock.shape[i]) || coords[i][1] === (gridMod.height - 1)) {
         this.currentBlock = new Piece();
         return coords;
       }
-      gameModel.currentBlock.shape[i].yCoord += 1;
+      this.currentBlock.shape[i].yCoord += 1;
     }
     return false;
   },
 
-  checkTouch: function(grid, block) {
+  checkTouch: function(gridMod, block) {
     var x = block.xCoord;
     var y = block.yCoord;
-    if (grid[x][y+1]) {
+    if (gridMod.gridArray[x][y+1]) {
       return true;
     }
     return false;
   },
 
-  updatePieceCoords: function(keycode, grid, block) {
+  updatePieceCoords: function(keycode, gridMod, gameMod) {
+    var block = gameMod.currentBlock;
     if (keycode === 37) {
-      if (this.validMove(-1, grid)){
+      if (this.validMove(-1, gridMod)){
         for (var i = 0; i < this.currentBlock.shape.length; i++) {
           this.currentBlock.shape[i].xCoord -= 1;
         }
       }
     }
     if (keycode === 39) {
-      if (this.validMove(1, grid)){
+      if (this.validMove(1, gridMod)){
         for (var j = 0; j < this.currentBlock.shape.length; j++) {
           this.currentBlock.shape[j].xCoord += 1;
         }
       }
     }
     if (keycode === 40) {
-      return gameModel.setPiece(this.currentBlock.shape);
+      return gameModel.setPiece();
     }
     if (keycode === 32) {
       this.rotate(block);
@@ -83,7 +84,8 @@ var gameModel = {
     return false;
   },
 
-  validMove: function(move, grid) {
+  validMove: function(move, gridMod) {
+    var grid = gridMod.gridArray;
     for (var i = 0; i < this.currentBlock.shape.length; i++) {
       var nextSpace = this.currentBlock.shape[i].xCoord + move;
       if ( nextSpace < 0 || nextSpace > 9 || grid[nextSpace][this.currentBlock.shape[i].yCoord] ){
@@ -93,7 +95,8 @@ var gameModel = {
     return true;
   },
 
-  setPiece: function(piece) {
+  setPiece: function() {
+    var piece = this.currentBlock.shape;
     var coords = [];
     for (var i = 0; i < this.currentBlock.shape.length; i++) {
       var xVal = piece[i].xCoord;
@@ -104,10 +107,9 @@ var gameModel = {
     return coords;
   },
 
-  gameOver: function(grid){
-    console.log(grid.width);
-    for(var i = 0; i < grid.width; i++){
-      if (grid.gridArray[i][0]){
+  gameOver: function(gridMod){
+    for(var i = 0; i < gridMod.width; i++){
+      if (gridMod.gridArray[i][0]){
         controller.stopGame();
         break;
       }

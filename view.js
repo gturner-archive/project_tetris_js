@@ -1,9 +1,13 @@
 var view = {
   init: function() {
     this.addKeyboardListner();
+    this.newGameListener();
   },
 
-  render: function(width, height, blockCoords, gridArray) {
+  render: function(blockCoords, grid) {
+    var width = grid.width;
+    var height = grid.height;
+    var gridArray = grid.gridArray;
     $('#grid').html('');
     for(var i = 0; i < height; i++){
       var $row = $('<div>').addClass('row');
@@ -33,8 +37,15 @@ var view = {
     });
   },
 
+  newGameListener: function() {
+    $(document).on('click', 'button', function(e) {
+      $('button').fadeOut(1000);
+      controller.newGame();
+    });
+  },
+
   gameOverMessage: function() {
-    var $msg = $('<div>').addClass("msg");
+    var $msg = $('<button>').addClass("msg");
     var $msgH2 = $('<h2>').text("Game Over");
     $msg.append($msgH2);
     var scoreLine = "score: ";

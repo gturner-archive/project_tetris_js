@@ -7,10 +7,11 @@ var controller = {
 
   gameLoop: function(){
     var loop = 1;
-    setInterval(function() {
-      view.render(gridModel.width, gridModel.height, gameModel.getCoords(), gridModel.gridArray);
+    controller._intervalID = setInterval(function() {
+      console.log("game loop");
+      view.render(gameModel.getCoords(), gridModel);
       if (loop % 2 === 0) {
-        var coords = gameModel.updateGame(gridModel.gridArray);
+        var coords = gameModel.updateGame(gridModel);
         if (!!coords) {
           gridModel.updateGrid(coords);
         }
@@ -20,16 +21,26 @@ var controller = {
     }, 1000);
   },
 
+  newGame: function(){
+    gridModel.init();
+    gameModel.init();
+    this.gameLoop();
+  },
+
+  clearGame: function() {
+    view.clearBoard();
+  },
+
   movePiece: function(keycode) {
-    var coords = gameModel.updatePieceCoords(keycode, gridModel.gridArray, gameModel.currentBlock);
+    var coords = gameModel.updatePieceCoords(keycode, gridModel, gameModel);
     if (!!coords) {
       gridModel.updateGrid(coords);
     }
-    view.render(gridModel.width, gridModel.height, gameModel.getCoords(), gridModel.gridArray);
+    view.render(gameModel.getCoords(), gridModel);
   },
 
   stopGame: function(){
-    clearInterval(this.gameLoop);
+    clearInterval(controller._intervalID);
     // add score in below
     view.gameOverMessage();
   }
