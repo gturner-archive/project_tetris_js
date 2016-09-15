@@ -8,10 +8,12 @@ function Piece(direction){
     square: [new Block(4,0), new Block(3,0), new Block(4,1), new Block(3,1)],
     lShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(4,1)],
     zShape: [new Block(2,1), new Block(3,1), new Block(3,0), new Block(4,0)],
-    iShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(5,0)]
+    iShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(5,0)],
+    tShape: [new Block(3,0), new Block(4,0), new Block(4,1), new Block(5,0)],
+    lLeftShape: [new Block()]
   };
 
-  this.type = Object.keys(types)[Math.floor(Math.random() * 4)];
+  this.type = Object.keys(types)[Math.floor(Math.random() * 5)];
   this.shape = types[this.type];
   this.dir = direction || 1;
   this.rotations = 0;
@@ -115,7 +117,7 @@ var gameModel = {
     if(typo === 'iShape' || typo === 'zShape'){
       gameModel.rotations[typo][gameModel.currentBlock.rotations % 2](that);
     }
-    else if(typo === 'lShape'){
+    else if(typo === 'lShape' || typo === 'tShape'){
       gameModel.rotations[typo][gameModel.currentBlock.rotations % 4](that);
     }
 
@@ -123,6 +125,33 @@ var gameModel = {
   },
 
   rotations: {
+    tShape: {
+      0: function(obj){
+        var block = obj.currentBlock;
+        block.shape[3].xCoord -= 1;
+        block.shape[3].yCoord -= 1;
+      },
+      1: function(obj){
+        var block = obj.currentBlock;
+        block.shape[2].xCoord += 1;
+        block.shape[2].yCoord -= 1;
+      },
+      2: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord += 1;
+        block.shape[0].yCoord += 1;
+      },
+      3: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord -= 1;
+        block.shape[0].yCoord -= 1;
+        block.shape[2].xCoord -= 1;
+        block.shape[2].yCoord += 1;
+        block.shape[3].xCoord += 1;
+        block.shape[3].yCoord += 1;
+      }
+    },
+
     zShape: {
       0: function(obj){
         var block = obj.currentBlock;
