@@ -12,31 +12,8 @@ var gridModel = {
       this.gridArray[i] = new Array(this.height);
     }
   },
-
-
-  //LOOKING FOR FIRST
-  // each block goes into a search array for last space avail
-  // take difference
-  // maximum, beocmes difference
-  // each peiece placed by the difference
-
-
+  
   updateGrid: function(coords) {
-    // for (var i = 0; i < gridModel.height; i++){
-    //   for (var j = 0; j < coords.length; j++) {
-    //     var col = this.gridArray[coords[j][0]];
-    //     if (!!col[i+1] || i === 19) {
-    //       var diff = i - coords[j][1];
-    //       for (var k = 0; k < coords.length; k++) {
-    //         this.gridArray[coords[k][0]][diff + coords[k][1]] = true;
-    //         console.log(this.gridArray[coords[k][0]][diff + coords[k][1]]);
-    //         this.checkRow([coords[k][0], diff + coords[k][1]]);
-    //       }
-    //       return;
-    //     }
-    //   }
-    // }
-    // console.log(coords);
     var dist = [];
     for(var i = 0; i < coords.length; i++){
       dist.push(this.checkBlockDrop(coords[i]));
