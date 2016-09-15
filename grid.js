@@ -67,7 +67,10 @@ var gridModel = {
       var ele = this.gridArray[k].splice(rowNum, 1);
       this.gridArray[k].unshift(undefined);
     }
-    controller.updateScore();
-    controller.updateSpeed();
+    // controller.updateScore();
+    // controller.updateSpeed();
+    // clearInterval(controller._intervalID);
+    // controller.gameLoop;
+    controller.updateGameGear();
   }
 };

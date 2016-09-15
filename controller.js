@@ -50,6 +50,13 @@ var controller = {
   },
 
   updateSpeed: function(){
-    gameModel.interval /= 1.1;
+    gameModel.interval /= 1.05;
+  },
+
+  updateGameGear: function(){
+    this.updateScore();
+    this.updateSpeed();
+    clearInterval(controller._intervalID);
+    this.gameLoop();
   }
 };
