@@ -24,6 +24,7 @@ var controller = {
     if (!!coords) {
       gridModel.updateGrid(coords);
     }
+    view.render(gridModel.width, gridModel.height, gameModel.getCoords(), gridModel.gridArray);
   }
 
 }
