@@ -22,20 +22,53 @@ var gridModel = {
 
 
   updateGrid: function(coords) {
+    // for (var i = 0; i < gridModel.height; i++){
+    //   for (var j = 0; j < coords.length; j++) {
+    //     var col = this.gridArray[coords[j][0]];
+    //     if (!!col[i+1] || i === 19) {
+    //       var diff = i - coords[j][1];
+    //       for (var k = 0; k < coords.length; k++) {
+    //         this.gridArray[coords[k][0]][diff + coords[k][1]] = true;
+    //         console.log(this.gridArray[coords[k][0]][diff + coords[k][1]]);
+    //         this.checkRow([coords[k][0], diff + coords[k][1]]);
+    //       }
+    //       return;
+    //     }
+    //   }
+    // }
+    // console.log(coords);
+    var dist = [];
+    for(var i = 0; i < coords.length; i++){
+      dist.push(this.checkBlockDrop(coords[i]));
+    }
+    console.log(dist)
+    var min_dist = this.minDistCollision(dist);
+    console.log(min_dist);
+    for(var i =0; i < coords.length; i++){
+      this.gridArray[coords[i][0]][min_dist + coords[i][1]] = true;
+      this.checkRow([coords[i][0], min_dist + coords[i][1]]);
+    }
+  },
+
+  checkBlockDrop: function(coord){
+    var col = this.gridArray[coord[0]];
     for (var i = 0; i < gridModel.height; i++){
-      for (var j = 0; j < coords.length; j++) {
-        var col = this.gridArray[coords[j][0]];
-        if (!!col[i+1] || i === 19) {
-          var diff = i - coords[j][1];
-          for (var k = 0; k < coords.length; k++) {
-            this.gridArray[coords[k][0]][diff + coords[k][1]] = true;
-            console.log(this.gridArray[coords[k][0]][diff + coords[k][1]]);
-            this.checkRow([coords[k][0], diff + coords[k][1]]);
-          }
-          return;
-        }
+      if (!!col[i + 1] || i === 19){
+        return i - coord[1];
       }
     }
+  },
+
+  minDistCollision: function(distances){
+    var min = distances[0];
+    for(var i = 1; i < distances.length; i++){
+      // console.log(distances[i]);
+      if (distances[i] < min){
+        min = distances[i];
+      }
+    }
+    // console.log(min);
+    return min;
   },
 
   checkRow: function(coord){
