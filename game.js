@@ -3,7 +3,7 @@ function Block(x, y) {
   this.yCoord = y || 0;
 };
 
-function Piece(direction){
+function Piece(){
   types = {
     square: [new Block(4,0), new Block(3,0), new Block(4,1), new Block(3,1)],
     lShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(4,1)],
@@ -16,7 +16,6 @@ function Piece(direction){
 
   this.type = Object.keys(types)[Math.floor(Math.random() * 7)];
   this.shape = types[this.type];
-  this.dir = direction || 1;
   this.rotations = 0;
 
   this.getType = function() {
@@ -231,35 +230,35 @@ var gameModel = {
     lShape: {
       0: function(obj) {
         var block = obj.currentBlock;
-        block.shape[0].xCoord += 1 * block.dir;
-        block.shape[0].yCoord -= 1 * block.dir;
-        block.shape[2].xCoord -= 1 * block.dir;
-        block.shape[2].yCoord += 1 * block.dir;
-        block.shape[3].xCoord -= 2 * block.dir;
+        block.shape[0].xCoord += 1;
+        block.shape[0].yCoord -= 1;
+        block.shape[2].xCoord -= 1;
+        block.shape[2].yCoord += 1;
+        block.shape[3].xCoord -= 2;
       },
       1: function(obj){
         var block = obj.currentBlock;
-        block.shape[0].xCoord += 1 * block.dir;
-        block.shape[0].yCoord += 1 * block.dir;
-        block.shape[2].xCoord -= 1 * block.dir;
-        block.shape[2].yCoord -= 1 * block.dir;
-        block.shape[3].yCoord -= 2 * block.dir;
+        block.shape[0].xCoord += 1;
+        block.shape[0].yCoord += 1;
+        block.shape[2].xCoord -= 1;
+        block.shape[2].yCoord -= 1;
+        block.shape[3].yCoord -= 2;
       },
       2: function(obj){
         var block = obj.currentBlock;
-        block.shape[0].xCoord -= 1 * block.dir;
-        block.shape[0].yCoord += 1 * block.dir;
-        block.shape[2].xCoord += 1 * block.dir;
-        block.shape[2].yCoord -= 1 * block.dir;
-        block.shape[3].xCoord += 2 * block.dir;
+        block.shape[0].xCoord -= 1;
+        block.shape[0].yCoord += 1;
+        block.shape[2].xCoord += 1;
+        block.shape[2].yCoord -= 1;
+        block.shape[3].xCoord += 2;
       },
       3: function(obj){
         var block = obj.currentBlock;
-        block.shape[0].xCoord -= 1 * block.dir;
-        block.shape[0].yCoord -= 1 * block.dir;
-        block.shape[2].xCoord += 1 * block.dir;
-        block.shape[2].yCoord += 1 * block.dir;
-        block.shape[3].yCoord += 2 * block.dir;
+        block.shape[0].xCoord -= 1;
+        block.shape[0].yCoord -= 1;
+        block.shape[2].xCoord += 1;
+        block.shape[2].yCoord += 1;
+        block.shape[3].yCoord += 2;
       }
     }
   }
