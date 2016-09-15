@@ -20,7 +20,7 @@ var controller = {
   },
 
   movePiece: function(keycode) {
-    var coords = gameModel.updatePieceCoords(keycode, gridModel.gridArray);
+    var coords = gameModel.updatePieceCoords(keycode, gridModel.gridArray, gameModel.currentBlock);
     if (!!coords) {
       gridModel.updateGrid(coords);
     }

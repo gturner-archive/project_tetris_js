@@ -3,22 +3,21 @@ function Block(x, y) {
   this.yCoord = y || 0;
 };
 
-function Piece(){
+function Piece(direction){
   types = {
     square: [new Block(4,0), new Block(3,0), new Block(4,1), new Block(3,1)],
-    lShape: [new Block(4,0), new Block(4,1), new Block(3,0), new Block(2,0)],
+    lShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(4,1)],
     zShape: [new Block(4,0), new Block(3,0), new Block(3,1), new Block(2,1)],
     iShape: [new Block(4,0), new Block(2,0), new Block(3,0), new Block(5,0)]
   };
 
-  this.shape = types[Object.keys(types)[Math.floor(Math.random() * 4)]];
+  this.type = Object.keys(types)[Math.floor(Math.random() * 4)];
+  this.shape = types[this.type];
+  this.dir = direction || 1;
+  this.rotations = 0;
 
-  this.mapBlock = function(index){
-    var blockCoords = [];
-    for(var n = 0; n < 4; n++){
-      var dist =
-      blockCoords.push();
-    }
+  this.getType = function() {
+    return this.type;
   }
 };
 // [1,0] [2,0] [3,0] [4,0]
@@ -64,7 +63,7 @@ var gameModel = {
     return false;
   },
 
-  updatePieceCoords: function(keycode, grid) {
+  updatePieceCoords: function(keycode, grid, block) {
     if (keycode === 37) {
       if (this.validMove(-1, grid)){
         for (var i = 0; i < this.currentBlock.shape.length; i++) {
@@ -81,6 +80,9 @@ var gameModel = {
     }
     if (keycode === 40) {
       return gameModel.setPiece(this.currentBlock.shape);
+    }
+    if (keycode === 32) {
+      this.rotate(block);
     }
     return false;
   },
@@ -104,5 +106,69 @@ var gameModel = {
     }
     this.currentBlock = new Piece();
     return coords;
+  },
+
+  rotate: function(block){
+    var typo = block.getType(),
+        that = this;
+        console.log(that);
+    if(typo === 'iShape' || typo === 'square'){
+      this.rotations['simpleShapeRotate'](that);
+    }
+    else if(typo === 'lShape'){
+      gameModel.rotations[typo][gameModel.currentBlock.rotations % 4](that);
+    }
+  },
+
+  rotations: {
+    simpleShapeRotate: function(obj) {
+      var block = obj.currentBlock;
+      for(var i = 0; i < block.shape.length; i++){
+        var temp = block.shape[i].xCoord;
+        block.shape[i].xCoord = block.shape[i].yCoord;
+        block.shape[i].yCoord = temp;
+      }
+    },
+
+    lShape: {
+      0: function(obj) {
+        var block = gameModel.currentBlock;
+        console.log(block.shape);
+        block.shape[0].xCoord += 1 * block.dir;
+        block.shape[0].yCoord -= 1 * block.dir;
+        console.log(block.shape);
+        block.shape[2].xCoord -= 1 * block.dir;
+        block.shape[2].yCoord += 1 * block.dir;
+        block.shape[3].xCoord -= 2 * block.dir;
+        block.rotations += 1;
+      },
+      1: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord += 1 * block.dir;
+        block.shape[0].yCoord += 1 * block.dir;
+        block.shape[2].xCoord -= 1 * block.dir;
+        block.shape[2].yCoord -= 1 * block.dir;
+        block.shape[3].yCoord -= 2 * block.dir;
+        block.rotations += 1;
+      },
+      2: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord -= 1 * block.dir;
+        block.shape[0].yCoord += 1 * block.dir;
+        block.shape[2].xCoord += 1 * block.dir;
+        block.shape[2].yCoord -= 1 * block.dir;
+        block.shape[3].xCoord += 2 * block.dir;
+        block.rotations += 1;
+      },
+      3: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord -= 1 * block.dir;
+        block.shape[0].yCoord -= 1 * block.dir;
+        block.shape[2].xCoord += 1 * block.dir;
+        block.shape[2].yCoord += 1 * block.dir;
+        block.shape[3].yCoord += 2 * block.dir;
+        block.rotations += 1;
+      }
+    }
   }
 };
