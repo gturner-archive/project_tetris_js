@@ -12,9 +12,21 @@
 }
 
 .current-block {
-  background-color: orange;
+  background-color: darkorange;
 }
 
 .old-block {
   background-color: green;
+}
+
+.msg {
+  position: absolute;
+  left: 20%;
+  top: 30%;
+  border: 1px solid orange;
+  background-color: black;
+  color: orange;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 4px 2px 10px #eee;
 }

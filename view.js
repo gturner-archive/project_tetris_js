@@ -31,6 +31,15 @@ var view = {
       var keycode = e.keyCode;
       controller.movePiece(keycode);
     });
-  }
+  },
 
+  gameOverMessage: function() {
+    var $msg = $('<div>').addClass("msg");
+    var $msgH2 = $('<h2>').text("Game Over");
+    $msg.append($msgH2);
+    var scoreLine = "score: ";
+    var $scoreLine = $('h3').text(scoreLine);
+    $msg.append($scoreLine);
+    $('#grid').after($msg);
+  }
 };

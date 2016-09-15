@@ -1,7 +1,7 @@
 function Block(x, y) {
   this.xCoord = x ||4;
   this.yCoord = y || 0;
-};
+}
 
 function Piece(){
   types = {
@@ -20,8 +20,8 @@ function Piece(){
 
   this.getType = function() {
     return this.type;
-  }
-};
+  };
+}
 
 var gameModel = {
   init: function() {
@@ -33,7 +33,7 @@ var gameModel = {
   getCoords: function(){
     var piece = [];
     for (var i = 0; i < this.currentBlock.shape.length; i++) {
-      piece.push([gameModel.currentBlock.shape[i].xCoord, gameModel.currentBlock.shape[i].yCoord])
+      piece.push([gameModel.currentBlock.shape[i].xCoord, gameModel.currentBlock.shape[i].yCoord]);
     }
     return piece;
   },
@@ -69,8 +69,8 @@ var gameModel = {
     }
     if (keycode === 39) {
       if (this.validMove(1, grid)){
-        for (var i = 0; i < this.currentBlock.shape.length; i++) {
-          this.currentBlock.shape[i].xCoord += 1;
+        for (var j = 0; j < this.currentBlock.shape.length; j++) {
+          this.currentBlock.shape[j].xCoord += 1;
         }
       }
     }
@@ -104,161 +104,12 @@ var gameModel = {
     return coords;
   },
 
-  rotate: function(block){
-    var typo = block.getType(),
-        that = this;
-        console.log(that);
-    if(typo === 'iShape' || typo === 'zShape' || typo === 'zLeftShape'){
-      gameModel.rotations[typo][gameModel.currentBlock.rotations % 2](that);
-    }
-    else if(typo === 'lShape' || typo === 'tShape' || typo === 'lLeftShape'){
-      gameModel.rotations[typo][gameModel.currentBlock.rotations % 4](that);
-    }
-
-    block.rotations += 1;
-  },
-
-  rotations: {
-    zLeftShape: {
-      0: function(obj){
-        var block = obj.currentBlock;
-        block.shape[1].xCoord -= 2;
-        block.shape[2].yCoord += 2;
-      },
-      1: function(obj){
-        var block = obj.currentBlock;
-        block.shape[1].xCoord += 2;
-        block.shape[2].yCoord -= 2;
-      }
-    },
-    lLeftShape: {
-      0: function(obj){
-        var block = obj.currentBlock;
-        block.shape[3].yCoord -= 2;
-        block.shape[0].xCoord += 1;
-        block.shape[0].yCoord -= 1;
-        block.shape[2].xCoord -= 1;
-        block.shape[2].yCoord += 1;
-      },
-      1: function(obj){
-        var block = obj.currentBlock;
-        block.shape[3].xCoord += 2;
-        block.shape[0].xCoord += 1;
-        block.shape[0].yCoord += 1;
-        block.shape[2].xCoord -= 1;
-        block.shape[2].yCoord -= 1;
-      },
-      2: function(obj){
-        var block = obj.currentBlock;
-        block.shape[3].yCoord += 2;
-        block.shape[0].xCoord -= 1;
-        block.shape[0].yCoord += 1;
-        block.shape[2].xCoord += 1;
-        block.shape[2].yCoord -= 1;
-      },
-      3: function(obj){
-        var block = obj.currentBlock;
-        block.shape[3].xCoord -= 2;
-        block.shape[0].xCoord -= 1;
-        block.shape[0].yCoord -= 1;
-        block.shape[2].xCoord += 1;
-        block.shape[2].yCoord += 1;
-      }
-    },
-
-    tShape: {
-      0: function(obj){
-        var block = obj.currentBlock;
-        block.shape[3].xCoord -= 1;
-        block.shape[3].yCoord -= 1;
-      },
-      1: function(obj){
-        var block = obj.currentBlock;
-        block.shape[2].xCoord += 1;
-        block.shape[2].yCoord -= 1;
-      },
-      2: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord += 1;
-        block.shape[0].yCoord += 1;
-      },
-      3: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord -= 1;
-        block.shape[0].yCoord -= 1;
-        block.shape[2].xCoord -= 1;
-        block.shape[2].yCoord += 1;
-        block.shape[3].xCoord += 1;
-        block.shape[3].yCoord += 1;
-      }
-    },
-
-    zShape: {
-      0: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord += 2;
-        block.shape[1].yCoord -= 2;
-      },
-      1: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord -= 2;
-        block.shape[1].yCoord += 2;
-      }
-    },
-
-    iShape: {
-      0: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord += 2;
-        block.shape[0].yCoord -= 2;
-        block.shape[1].xCoord += 1;
-        block.shape[1].yCoord -= 1;
-        block.shape[3].xCoord -= 1;
-        block.shape[3].yCoord += 1;
-      },
-      1: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord -= 2;
-        block.shape[0].yCoord += 2;
-        block.shape[1].xCoord -= 1;
-        block.shape[1].yCoord += 1;
-        block.shape[3].xCoord += 1;
-        block.shape[3].yCoord -= 1;
-      }
-    },
-
-    lShape: {
-      0: function(obj) {
-        var block = obj.currentBlock;
-        block.shape[0].xCoord += 1;
-        block.shape[0].yCoord -= 1;
-        block.shape[2].xCoord -= 1;
-        block.shape[2].yCoord += 1;
-        block.shape[3].xCoord -= 2;
-      },
-      1: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord += 1;
-        block.shape[0].yCoord += 1;
-        block.shape[2].xCoord -= 1;
-        block.shape[2].yCoord -= 1;
-        block.shape[3].yCoord -= 2;
-      },
-      2: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord -= 1;
-        block.shape[0].yCoord += 1;
-        block.shape[2].xCoord += 1;
-        block.shape[2].yCoord -= 1;
-        block.shape[3].xCoord += 2;
-      },
-      3: function(obj){
-        var block = obj.currentBlock;
-        block.shape[0].xCoord -= 1;
-        block.shape[0].yCoord -= 1;
-        block.shape[2].xCoord += 1;
-        block.shape[2].yCoord += 1;
-        block.shape[3].yCoord += 2;
+  gameOver: function(grid){
+    console.log(grid.width);
+    for(var i = 0; i < grid.width; i++){
+      if (grid.gridArray[i][0]){
+        controller.stopGame();
+        break;
       }
     }
   }

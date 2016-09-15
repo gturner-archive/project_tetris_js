@@ -15,6 +15,7 @@ var controller = {
           gridModel.updateGrid(coords);
         }
       }
+      gameModel.gameOver(gridModel);
       loop++;
     }, 1000);
   },
@@ -25,6 +26,11 @@ var controller = {
       gridModel.updateGrid(coords);
     }
     view.render(gridModel.width, gridModel.height, gameModel.getCoords(), gridModel.gridArray);
-  }
+  },
 
-}
+  stopGame: function(){
+    clearInterval(this.gameLoop);
+    // add score in below
+    view.gameOverMessage();
+  }
+};

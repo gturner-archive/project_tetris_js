@@ -15,8 +15,8 @@ var gridModel = {
 
   updateGrid: function(coords) {
     var dist = [];
-    for(var i = 0; i < coords.length; i++){
-      dist.push(this.checkBlockDrop(coords[i]));
+    for(var j = 0; j < coords.length; j++){
+      dist.push(this.checkBlockDrop(coords[j]));
     }
     var min_dist = this.minDistCollision(dist);
     for(var i =0; i < coords.length; i++){
@@ -48,7 +48,7 @@ var gridModel = {
 
   checkRow: function(coord){
     if(this.fullRow(coord[1])) {
-      this.removeRow(coord[1])
+      this.removeRow(coord[1]);
     }
   },
 
