@@ -10,10 +10,11 @@ function Piece(direction){
     zShape: [new Block(2,1), new Block(3,1), new Block(3,0), new Block(4,0)],
     iShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(5,0)],
     tShape: [new Block(3,0), new Block(4,0), new Block(4,1), new Block(5,0)],
-    lLeftShape: [new Block()]
+    lLeftShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(2,1)],
+    zLeftShape: [new Block(3,1), new Block(4,1), new Block(2,0), new Block(3,0)]
   };
 
-  this.type = Object.keys(types)[Math.floor(Math.random() * 5)];
+  this.type = Object.keys(types)[Math.floor(Math.random() * 7)];
   this.shape = types[this.type];
   this.dir = direction || 1;
   this.rotations = 0;
@@ -22,12 +23,6 @@ function Piece(direction){
     return this.type;
   }
 };
-// [1,0] [2,0] [3,0] [4,0]
-// n n n n
-// n = 0th indexed block
-// n->1,0->2,0->3,0
-// mapping = [[2-1, 0-0], []]
-//
 
 var gameModel = {
   init: function() {
@@ -114,10 +109,10 @@ var gameModel = {
     var typo = block.getType(),
         that = this;
         console.log(that);
-    if(typo === 'iShape' || typo === 'zShape'){
+    if(typo === 'iShape' || typo === 'zShape' || typo === 'zLeftShape'){
       gameModel.rotations[typo][gameModel.currentBlock.rotations % 2](that);
     }
-    else if(typo === 'lShape' || typo === 'tShape'){
+    else if(typo === 'lShape' || typo === 'tShape' || typo === 'lLeftShape'){
       gameModel.rotations[typo][gameModel.currentBlock.rotations % 4](that);
     }
 
@@ -125,6 +120,53 @@ var gameModel = {
   },
 
   rotations: {
+    zLeftShape: {
+      0: function(obj){
+        var block = obj.currentBlock;
+        block.shape[1].xCoord -= 2;
+        block.shape[2].yCoord += 2;
+      },
+      1: function(obj){
+        var block = obj.currentBlock;
+        block.shape[1].xCoord += 2;
+        block.shape[2].yCoord -= 2;
+      }
+    },
+    lLeftShape: {
+      0: function(obj){
+        var block = obj.currentBlock;
+        block.shape[3].yCoord -= 2;
+        block.shape[0].xCoord += 1;
+        block.shape[0].yCoord -= 1;
+        block.shape[2].xCoord -= 1;
+        block.shape[2].yCoord += 1;
+      },
+      1: function(obj){
+        var block = obj.currentBlock;
+        block.shape[3].xCoord += 2;
+        block.shape[0].xCoord += 1;
+        block.shape[0].yCoord += 1;
+        block.shape[2].xCoord -= 1;
+        block.shape[2].yCoord -= 1;
+      },
+      2: function(obj){
+        var block = obj.currentBlock;
+        block.shape[3].yCoord += 2;
+        block.shape[0].xCoord -= 1;
+        block.shape[0].yCoord += 1;
+        block.shape[2].xCoord += 1;
+        block.shape[2].yCoord -= 1;
+      },
+      3: function(obj){
+        var block = obj.currentBlock;
+        block.shape[3].xCoord -= 2;
+        block.shape[0].xCoord -= 1;
+        block.shape[0].yCoord -= 1;
+        block.shape[2].xCoord += 1;
+        block.shape[2].yCoord += 1;
+      }
+    },
+
     tShape: {
       0: function(obj){
         var block = obj.currentBlock;
@@ -167,13 +209,13 @@ var gameModel = {
 
     iShape: {
       0: function(obj){
-          var block = obj.currentBlock;
-          block.shape[0].xCoord += 2;
-          block.shape[0].yCoord -= 2;
-          block.shape[1].xCoord += 1;
-          block.shape[1].yCoord -= 1;
-          block.shape[3].xCoord -= 1;
-          block.shape[3].yCoord += 1;
+        var block = obj.currentBlock;
+        block.shape[0].xCoord += 2;
+        block.shape[0].yCoord -= 2;
+        block.shape[1].xCoord += 1;
+        block.shape[1].yCoord -= 1;
+        block.shape[3].xCoord -= 1;
+        block.shape[3].yCoord += 1;
       },
       1: function(obj){
         var block = obj.currentBlock;
