@@ -7,7 +7,7 @@ function Piece(direction){
   types = {
     square: [new Block(4,0), new Block(3,0), new Block(4,1), new Block(3,1)],
     lShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(4,1)],
-    zShape: [new Block(4,0), new Block(3,0), new Block(3,1), new Block(2,1)],
+    zShape: [new Block(2,1), new Block(3,1), new Block(3,0), new Block(4,0)],
     iShape: [new Block(2,0), new Block(3,0), new Block(4,0), new Block(5,0)]
   };
 
@@ -112,7 +112,7 @@ var gameModel = {
     var typo = block.getType(),
         that = this;
         console.log(that);
-    if(typo === 'iShape'){
+    if(typo === 'iShape' || typo === 'zShape'){
       gameModel.rotations[typo][gameModel.currentBlock.rotations % 2](that);
     }
     else if(typo === 'lShape'){
@@ -123,6 +123,19 @@ var gameModel = {
   },
 
   rotations: {
+    zShape: {
+      0: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord += 2;
+        block.shape[1].yCoord -= 2;
+      },
+      1: function(obj){
+        var block = obj.currentBlock;
+        block.shape[0].xCoord -= 2;
+        block.shape[1].yCoord += 2;
+      }
+    },
+
     iShape: {
       0: function(obj){
           var block = obj.currentBlock;
@@ -142,7 +155,6 @@ var gameModel = {
         block.shape[3].xCoord += 1;
         block.shape[3].yCoord -= 1;
       }
-
     },
 
     lShape: {
